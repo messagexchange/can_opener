@@ -12,8 +12,9 @@ Usage
 
 Declare ability classes than inherit from CanOpener::Ability, and implement the `abilities` public instance method.  By default, the method will have access to the the local `user` as per typical use in CanCan.
 
+```ruby
     require 'can_opener'
-    
+
     class AdminAbility < CanOpener::Ability
       def abilities
         if user.admin?
@@ -40,9 +41,12 @@ Declare ability classes than inherit from CanOpener::Ability, and implement the 
         end
       end
     end
-    
+
+```
+
 Then declare your Ability class, but include `CanOpener` rather than `CanCan::Abilities`
 
+```ruby
     class Ability
       include CanOpener
 
@@ -52,15 +56,18 @@ Then declare your Ability class, but include `CanOpener` rather than `CanCan::Ab
         c.add AdminAbility, BannedAbility
       end
     end
-    
+
+```
+
 Remember that CanCan processes abilities in a top down fashion, so add your general abilities up top, and then things you want to override everything (like banning a user) at the bottom.  You can add line by line or multiple on one line if you wish.
 
 ### But I want to check the IP Address, Project, etc, in the ability!
 
 Inherit `CanOpener::Ability` , setup your accessors, use the `additional_ability_arguments` class method.  Consider the following contrived example:
 
+```ruby
     class TakesIpAddress < CanOpener::Ability
-      attr_reader :ip_address      
+      attr_reader :ip_address
       additional_ability_arguments :ip_address
     end
 
@@ -79,13 +86,14 @@ Inherit `CanOpener::Ability` , setup your accessors, use the `additional_ability
 
     class TwoParamAbility
       include CanOpener
-  
+
       configure_abilities do |c|
         c.add SuperAdmin
         c.add IPBouncer
       end
     end
-    
+
+```
 Why?
 ----
 
