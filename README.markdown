@@ -1,4 +1,4 @@
-can-opener
+can\_opener
 ==========
 
 [![Code Climate](https://codeclimate.com/github/anicholson/can-opener.png)](https://codeclimate.com/github/anicholson/can-opener)
