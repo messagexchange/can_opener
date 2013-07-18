@@ -1,23 +1,23 @@
-require "forwardable"
-require "cancan"
-require "can_opener/ability"
+require 'forwardable'
+require 'cancan'
+require 'can_opener/ability'
 
 module CanOpener
   include CanCan::Ability
 
   def self.included(base)
     base.extend ClassMethods
-    class << base;
+    class << base
       attr_accessor :ability_classes
       protected :ability_classes=
     end
   end
 
-  module ClassMethods    
+  module ClassMethods
     def configure_abilities(&block)
       yield self
     end
-    
+
     protected
 
     def add(*klasses)
