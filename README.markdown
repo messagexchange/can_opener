@@ -1,6 +1,8 @@
 can-opener
 ==========
 
+[![Code Climate](https://codeclimate.com/github/anicholson/can-opener.png)](https://codeclimate.com/github/anicholson/can-opener)
+
 Split up your CanCan Ability by allowing you to easily create abilities in separate classes which you reference in your main ability model.  This is mainly useful if you want to break down your abilities into smaller classes for organizational purposes.
 
 Usage
