@@ -13,49 +13,49 @@ Usage
 Declare ability classes than inherit from CanOpener::Ability, and implement the `abilities` public instance method.  By default, the method will have access to the the local `user` as per typical use in CanCan.
 
 ```ruby
-    require 'can_opener'
+require 'can_opener'
 
-    class AdminAbility < CanOpener::Ability
-      def abilities
-        if user.admin?
-          can :manage, :all
-        end
+class AdminAbility < CanOpener::Ability
+  def abilities
+    if user.admin?
+      can :manage, :all
+    end
+  end
+end
+
+class SupportAbility < CanOpener::Ability
+  def abilities
+    if user.support?
+      can :read, :all
+      can :write, :all
+    end
+  end
+end
+
+class BannedAbility < CanOpener::Ability
+  def abilities
+    if user.banned?
+      cannot do |action, object_class, object|
+        true
       end
     end
-
-    class SupportAbility < CanOpener::Ability
-      def abilities
-        if user.support?
-          can :read, :all
-          can :write, :all
-        end
-      end
-    end
-
-    class BannedAbility < CanOpener::Ability
-      def abilities
-        if user.banned?
-          cannot do |action, object_class, object|
-            true
-          end
-        end
-      end
-    end
+  end
+end
 
 ```
 
 Then declare your Ability class, but include `CanOpener` rather than `CanCan::Abilities`
 
 ```ruby
-    class Ability
-      include CanOpener
+class Ability
+  include CanOpener
 
-      configure_abilities do |c|
-        c.add ReaderAbility
-        c.add SupportAbility
-        c.add AdminAbility, BannedAbility
-      end
-    end
+  configure_abilities do |c|
+    c.add ReaderAbility
+    c.add SupportAbility
+    c.add AdminAbility, BannedAbility
+  end
+end
 
 ```
 
@@ -66,32 +66,32 @@ Remember that CanCan processes abilities in a top down fashion, so add your gene
 Inherit `CanOpener::Ability` , setup your accessors, use the `additional_ability_arguments` class method.  Consider the following contrived example:
 
 ```ruby
-    class TakesIpAddress < CanOpener::Ability
-      attr_reader :ip_address
-      additional_ability_arguments :ip_address
-    end
+class TakesIpAddress < CanOpener::Ability
+  attr_reader :ip_address
+  additional_ability_arguments :ip_address
+end
 
-    class SuperAdmin < TakesIpAddress
-      def abilities
-        # Wide open, just for testing
-        can :manage, :foo
-      end
-    end
+class SuperAdmin < TakesIpAddress
+  def abilities
+    # Wide open, just for testing
+    can :manage, :foo
+  end
+end
 
-    class IPBouncer < TakesIpAddress
-      def abilities
-        cannot :manage, :foo unless ip_address =~ /^192\.168\./
-      end
-    end
+class IPBouncer < TakesIpAddress
+  def abilities
+    cannot :manage, :foo unless ip_address =~ /^192\.168\./
+  end
+end
 
-    class TwoParamAbility
-      include CanOpener
+class TwoParamAbility
+  include CanOpener
 
-      configure_abilities do |c|
-        c.add SuperAdmin
-        c.add IPBouncer
-      end
-    end
+  configure_abilities do |c|
+    c.add SuperAdmin
+    c.add IPBouncer
+  end
+end
 
 ```
 Why?
