@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rubocop'
 
-  s.add_dependency             'cancan'
+  s.add_dependency             'cancancan'
 end
